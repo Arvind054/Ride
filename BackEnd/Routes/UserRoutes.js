@@ -15,4 +15,6 @@ router.post("/login", [
     body('password').isLength().withMessage('Password is Required !!')],
     UserController.loginUser
 )
+// Get Route For User Profile
+router.get("/profile", UserController.getUserProfile)
 module.exports = router;

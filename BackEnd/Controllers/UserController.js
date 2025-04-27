@@ -1,6 +1,7 @@
 // Import the User Model
 const userModel = require('../DB/Models/User_Schema');
 const {validationResult} = require('express-validator')
+const jwt = require('jsonwebtoken');
 //User Register Controller
 module.exports.registerUser = async function(req, res, next){
  const errors = validationResult(req);
@@ -38,5 +39,21 @@ module.exports.loginUser = async function(req, res, next){
       return res.status(401).json({message:"Invalid Email or Password"});
    }
    const token = user.generateToken(); 
+   res.cookie('token', token);
    res.status(200).json({token, user});
+}
+
+//Get user Profile
+module.exports.getUserProfile = async function(req, res, next){
+   const token = req.headers.authorization.split(" ")[1] || req.cookies.token;
+   if(!token){
+      return res.status(401).json({message:"Unauthorized"});
+   }
+   try{
+      const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const user = await userModel.findById(decoded._id).select('+password'); 
+      res.status(200).json({user});
+   }catch(err){
+      res.status(401).json({message:"Unauthorized"});
+   }
 }
