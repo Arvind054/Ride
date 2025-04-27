@@ -3,8 +3,9 @@ const express = require('express')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const connectToDB = require('./DB/db');
-const UserRoutes = require('./Routes/UserRoutes')
 const cookieParser = require('cookie-parser')
+const UserRoutes = require('./Routes/UserRoutes');
+const RiderRoutes = require('./Routes/RiderRoutes');
 //App Configuration
 dotenv.config();
 const app = express();
@@ -19,7 +20,13 @@ connectToDB();
 app.get("/", (req, res)=>{
     res.send("On home Route");
 });
+
+//User Routes
 app.use("/user", UserRoutes);
+
+// Rider Routes
+app.use("/rider", RiderRoutes);
+
 //App Listening
 app.listen(process.env.PORT || 3000, ()=>{
     console.log(`App is Listening on PORT ${process.env.PORT}`);
