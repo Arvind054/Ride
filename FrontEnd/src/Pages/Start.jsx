@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router";
 
-const Home = () => {
+const Start = () => {
   return (
     <div>
   
@@ -15,4 +15,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Start

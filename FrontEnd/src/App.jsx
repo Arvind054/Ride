@@ -1,7 +1,7 @@
 import './App.css'
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import Home from './Pages/Home';
+import Start from './Pages/Start';
 import UserLogin from './Pages/UserLogin';
 import UserSignUp from './Pages/UserSignUp';
 import RiderLogin from './Pages/RiderLogin';
@@ -10,7 +10,7 @@ function App() {
   return (
      
       <Routes>
-        <Route path='/' element={<Home></Home>}/>
+        <Route path='/' element={<Start></Start>}/>
         <Route path='/login' element={<UserLogin></UserLogin>}/>
         <Route path='/signup' element={<UserSignUp></UserSignUp>}/>
         <Route path='/rider-login' element={<RiderLogin></RiderLogin>}/>
