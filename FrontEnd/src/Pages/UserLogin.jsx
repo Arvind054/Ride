@@ -1,24 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { UserContextData } from "../Context/UserContext";
+import { AuthData } from "../Context/AuthContext";
 const UserLogin = () => {
   const navigator = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userData, setUserData] = useState({});
+  const {handleUserLogin} = UserContextData();
+  const {AuthValidator} = AuthData();
   const handleSubmit = (e)=>{
       e.preventDefault();
       if(!email || !password){
         toast.error("Email & Password are Required");
         return ;
       }
-      setUserData({
+      const user = ({
         email:email,
         password:password
       })
-      toast.success("Login Successsful");
-      navigator("/");
+      handleUserLogin(user, navigator);
   }
+  useEffect(()=>{
+  AuthValidator(navigator);
+  }, [])
   return (
     <div className="min-h-screen bg-black text-yellow-400 flex items-center justify-center">
       <div className="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-md">

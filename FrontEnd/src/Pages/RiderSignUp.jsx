@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { RiderDataContext } from "../Context/RiderContext";
+import { AuthData } from "../Context/AuthContext";
 const RiderSignUp = () => {
    const navigator = useNavigate();
    const [Firstname, setFirstname] = useState('');
    const [Lastname, setLastname] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-   const [RiderData, setRiderData] = useState({});
+   const {handleRiderRegister} = RiderDataContext();
+   const {AuthValidator} = AuthData();
    const handleSubmit = (e)=>{
     e.preventDefault();
     if(!Firstname || !email || !password){
       toast.error("All Fields are Required.");
       return ;
     }
-    setRiderData({
+    const rider = ({
       fullname:{
         firstname:Firstname,
         lastname:Lastname
@@ -22,8 +25,11 @@ const RiderSignUp = () => {
       email:email,
       password:password,
     })
-    navigator("/");
+    handleRiderRegister(rider, navigator);
    }
+   useEffect(()=>{
+    AuthValidator(navigator);
+    }, []);
   return (
     <div className="min-h-screen bg-black text-yellow-400 flex items-center justify-center">
       <div className="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-md">

@@ -1,24 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { RiderDataContext } from "../Context/RiderContext";
+import { AuthData } from "../Context/AuthContext";
 const RiderLogin = () => {
   const navigator = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [RiderData, setRiderData] = useState({});
+  const {handleRiderLogin} = RiderDataContext();
+  const {AuthValidator} = AuthData();
   const handleSubmit = (e)=>{
       e.preventDefault();
       if(!email || !password){
         toast.error("Email & Password are Required");
         return ;
       }
-      setRiderData({
+      const rider = ({
         email:email,
         password:password
       })
-      toast.success("Login Successsful");
-      navigator("/");
+     handleRiderLogin(rider, navigator);
   }
+  useEffect(()=>{
+    AuthValidator(navigator);
+    }, [])
   return (
     <div className="min-h-screen bg-black text-yellow-400 flex items-center justify-center">
       <div className="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-md">

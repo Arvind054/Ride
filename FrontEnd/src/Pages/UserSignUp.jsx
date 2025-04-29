@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { UserContextData } from "../Context/UserContext";
+import { AuthData } from "../Context/AuthContext";
 const UserSignUp = () => {
    const navigator = useNavigate();
+   const {handleUserRegister} = UserContextData();
    const [Firstname, setFirstname] = useState('');
    const [Lastname, setLastname] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-   const [userData, setUserData] = useState({});
+   const {AuthValidator} = AuthData();
    const handleSubmit = (e)=>{
     e.preventDefault();
     if(!Firstname || !email || !password){
       toast.error("All Fields are Required.");
       return ;
     }
-    setUserData({
+    const user = ({
       fullname:{
         firstname:Firstname,
         lastname:Lastname
@@ -22,8 +25,11 @@ const UserSignUp = () => {
       email:email,
       password:password,
     })
-    navigator("/");
+    handleUserRegister(user, navigator);
    }
+   useEffect(()=>{
+    AuthValidator(navigator);
+    }, [])
   return (
     <div className="min-h-screen bg-black text-yellow-400 flex items-center justify-center">
       <div className="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-md">
