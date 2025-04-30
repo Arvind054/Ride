@@ -12,7 +12,7 @@ export const UserProvider = ({children}) => {
            const data = response.data;
            const token = data.token;
            localStorage.setItem('token', token);
-           navigator("/");
+           navigator("/user/home");
            toast.success("Login Successfully");
         }catch(e){
             toast.error(e.message);
@@ -27,7 +27,7 @@ export const UserProvider = ({children}) => {
             const data = response.data;
             const token = data.token;
             localStorage.setItem('token', token);
-            navigator("/");
+            navigator("/user/home");
             toast.success("Registered Successfully");
         }catch(e){
             toast.error(e.message);

@@ -7,7 +7,7 @@ export const AuthProvider = ({children})=>{
    const AuthValidator = (navigator)=>{
         if(localStorage.getItem('token')){
             setIsAuth(true);
-            navigator("/");
+            navigator("/user/home");
         }else{
             return ;
         }

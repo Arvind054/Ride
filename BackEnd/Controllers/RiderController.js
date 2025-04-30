@@ -5,35 +5,35 @@ const jwt = require('jsonwebtoken')
 
 //Route For Rider Registration
 module.exports.registerRider = async function(req, res, next){
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(400).json({errors:errors.array()});
-  }
-  const {fullname, email, password, status, vehicle, location} = req.body;
-  try{
-    if(!fullname || !email || !password || !status || !vehicle){
-        return res.status(401).json({message:"All fields are required"})
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
     }
-    const isRiderExists = await RiderModel.findOne({email:email});
-    if(isRiderExists){
-        return res.status(401).json({message:"Rider Already Exists"});
-    }
-     const hashedPassword = await RiderModel.hashPassword(password);
-     const newRider = await RiderModel.create({
-        fullname:{
-            firstname: fullname.firstname,
-            lastname:fullname.lastname
-        },
-        email:email,
-        password:hashedPassword,
-        status: status,
-        vehicle:{
-            color:vehicle.color,
-            number:vehicle.number,
-            capacity: vehicle.capacity,
-            type: vehicle.type
-        },
-        location:location,
+    const {fullname, email, password, vehicle} = req.body;
+    
+    try{
+        
+        if(!fullname || !email || !password  || !vehicle){
+            return res.status(401).json({message:"All fields are required"})
+        }
+        const isRiderExists = await RiderModel.findOne({email:email});
+        if(isRiderExists){
+            return res.status(401).json({message:"Rider Already Exists"});
+        }
+        const hashedPassword = await RiderModel.hashPassword(password);
+        const newRider = await RiderModel.create({
+            fullname:{
+                firstname: fullname.firstname,
+                lastname:fullname.lastname
+            },
+            email:email,
+            password:hashedPassword,
+            vehicle:{
+                color:vehicle.color,
+                number:vehicle.number,
+                capacity: vehicle.capacity,
+                type: vehicle.type
+            },
      });
      await newRider.save();
      const token = newRider.generateToken();

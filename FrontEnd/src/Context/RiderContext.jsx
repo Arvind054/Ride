@@ -7,8 +7,10 @@ export const RiderProvider = ({children}) => {
   // Function to Register the Rider
   const handleRiderRegister = async(rider, navigator) =>{
      try{
-         const response  = await axios.post(`${import.meta.env.VITE_SERVER_URL}/rider-login`, rider);
+         const response  = await axios.post(`${import.meta.env.VITE_SERVER_URL}/rider/register`, rider);
          const data = response.data;
+         const token = data.token;
+         localStorage.setItem('token', token);
           navigator("/");
           toast.success("Registered Successful");
      }catch(e){
@@ -18,8 +20,10 @@ export const RiderProvider = ({children}) => {
   }
   const handleRiderLogin = async(rider, navigator)=> {
     try{
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/rider-signup`, rider);
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/rider/login`, rider);
       const data = response.data;
+      const token = data.token;
+         localStorage.setItem('token', token);
       navigator("/");
       toast.success("Login Successfully");
     }catch(e){

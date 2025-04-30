@@ -48,7 +48,7 @@ const RiderSchema = new mongoose.Schema({
         type:{
             type:String,
             required:true,
-            enum:["car", "bike", "bus"],
+            enum:["Car", "Bike", "Bus"],
         },
     },
     location:{

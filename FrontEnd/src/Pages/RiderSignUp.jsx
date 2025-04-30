@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { RiderDataContext } from "../Context/RiderContext";
@@ -9,11 +9,15 @@ const RiderSignUp = () => {
    const [Lastname, setLastname] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
+   const [vehicleColor, setVechiceColor] = useState('');
+   const [vehicleType, setVechiceType] = useState('');
+   const [vehicleCapacity, setVechiceCapacity] = useState(0);
+   const [vehicleNumber, setVechiceNumber] = useState('');
    const {handleRiderRegister} = RiderDataContext();
    const {AuthValidator} = AuthData();
    const handleSubmit = (e)=>{
     e.preventDefault();
-    if(!Firstname || !email || !password){
+    if(!Firstname || !email || !password || !vehicleType || !vehicleCapacity || !vehicleNumber || !vehicleColor){
       toast.error("All Fields are Required.");
       return ;
     }
@@ -24,6 +28,12 @@ const RiderSignUp = () => {
       },
       email:email,
       password:password,
+      vehicle:{
+        color:vehicleColor,
+        type:vehicleType,
+        capacity:vehicleCapacity,
+        number:vehicleNumber
+      }
     })
     handleRiderRegister(rider, navigator);
    }
@@ -81,6 +91,48 @@ const RiderSignUp = () => {
               onChange={(e)=>setPassword(e.target.value)}
             />
           </div>
+          <div className="flex space-x-4">
+            <div className="w-1/2">
+              <label className="block mb-1">Color</label>
+              <input
+                type="text"
+                className="w-full p-3 rounded-lg bg-black border border-yellow-400 text-yellow-400 placeholder-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Color"
+                value={vehicleColor}
+                onChange={(e)=>setVechiceColor(e.target.value)}
+              />
+            </div>
+
+            <div className="w-1/2">
+              <label className="block mb-1">Number</label>
+              <input
+                type="text"
+                className="w-full p-3 rounded-lg bg-black border border-yellow-400 text-yellow-400 placeholder-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Number"
+                value={vehicleNumber}
+                onChange={(e)=>setVechiceNumber(e.target.value)}
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="block mb-1">Capacity</label>
+              <input
+                type="text"
+                className="w-full p-3 rounded-lg bg-black border border-yellow-400 text-yellow-400 placeholder-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="capacity"
+                value={vehicleCapacity}
+                onChange={(e)=>setVechiceCapacity(e.target.value)}
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="block mb-1">Type</label>
+             <select name="" id="" className="w-full p-3 rounded-lg bg-black border-yellow-400 text-yellow-400 " onChange={(e)=>setVechiceType(e.target.value)} value={vehicleType}>
+              <option value="Car" >Car</option>
+              <option value="Bike">Bike</option>
+              <option value="Bus">Bus</option>
+             </select>
+            </div>
+          </div>
+          
           <div className="text-sm text-center">
             Already a User ?{" "}
             <a href="/login" className="underline hover:text-yellow-300">
